@@ -33,17 +33,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ==== HANYA BISA DIAKSES SETELAH LOGIN ====
 Route::middleware('auth')->group(function () {
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    // Menu input moment hanya untuk Frontliner
     Route::get('/moment/create', [RekapMomentController::class, 'create'])->name('moment.create');
     Route::post('/moment', [RekapMomentController::class, 'store'])->name('moment.store');
-    // Menu histori untuk Frontliner dan Kepala Cabang
     Route::get('/histori', [RekapMomentController::class, 'histori'])->name('moment.histori');
-    // Menu Pengguna Kepala Cabang
+
+    Route::get('/rekap-moment/export', [RekapMomentController::class, 'export'])->name('rekapmoment.export');
+
     Route::get('/data-pengguna', [UserController::class, 'index'])->name('users.index');
     Route::get('/data-pengguna/{user}', [UserController::class, 'showHistori'])->name('users.histori');
-
     Route::get('/reminder', [ReminderController::class, 'index'])->name('reminder.index');
-
 });

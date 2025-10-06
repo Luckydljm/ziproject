@@ -16,6 +16,14 @@
             </div>
         </div>
 
+        <div class="row align-items-center mb-3">
+            <div class="col-md-12 text-end">
+                <a href="{{ route('rekapmoment.export') }}" class="btn btn-success">
+                    <i class="fas fa-file-excel"></i> Ekspor ke Excel
+                </a>
+            </div>
+        </div>
+
         <div class="row mb-5">
             @forelse($moments as $moment)
                 <div class="col-md-4 mb-3">

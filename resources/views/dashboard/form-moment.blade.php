@@ -76,14 +76,16 @@
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group local-forms">
                                         <label>Moments <span class="login-danger">*</span></label>
-                                        <select name="moments" class="form-control" required>
+                                        <select id="momentSelect" name="moments" class="form-control" required>
                                             <option value="">-- Pilih Moment --</option>
                                             <option value="Empowered Care Moment"
-                                                {{ old('moments') == 'Empowered Care Moment' ? 'selected' : '' }}>Empowered
-                                                Care Moment</option>
+                                                {{ old('moments') == 'Empowered Care Moment' ? 'selected' : '' }}>
+                                                Empowered Care Moment
+                                            </option>
                                             <option value="Special Day Moment"
-                                                {{ old('moments') == 'Special Day Moment' ? 'selected' : '' }}>Special Day
-                                                Moment</option>
+                                                {{ old('moments') == 'Special Day Moment' ? 'selected' : '' }}>
+                                                Special Day Moment
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -102,19 +104,24 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group local-forms calendar-icon">
-                                        <label>Tanggal Mulai</label>
-                                        <input type="text" name="tgl_mulai" class="form-control datetimepicker"
-                                            value="{{ old('tgl_mulai') }}" placeholder="DD-MM-YYYY" />
-                                    </div>
-                                </div>
+                                {{-- Bagian tanggal mulai & selesai --}}
+                                <div id="tanggalFields">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6">
+                                            <div class="form-group local-forms calendar-icon">
+                                                <label>Tanggal Mulai</label>
+                                                <input type="text" name="tgl_mulai" class="form-control datetimepicker"
+                                                    value="{{ old('tgl_mulai') }}" placeholder="DD-MM-YYYY" />
+                                            </div>
+                                        </div>
 
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group local-forms calendar-icon">
-                                        <label>Tanggal Selesai</label>
-                                        <input type="text" name="tgl_selesai" class="form-control datetimepicker"
-                                            value="{{ old('tgl_selesai') }}" placeholder="DD-MM-YYYY" />
+                                        <div class="col-12 col-sm-6">
+                                            <div class="form-group local-forms calendar-icon">
+                                                <label>Tanggal Selesai</label>
+                                                <input type="text" name="tgl_selesai" class="form-control datetimepicker"
+                                                    value="{{ old('tgl_selesai') }}" placeholder="DD-MM-YYYY" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -133,4 +140,33 @@
         </div>
 
     </div>
+
+    {{-- 🧠 Tambahkan script berikut --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const momentSelect = document.getElementById('momentSelect');
+            const tanggalFields = document.getElementById('tanggalFields');
+
+            function toggleTanggalFields() {
+                if (momentSelect.value === 'Special Day Moment') {
+                    tanggalFields.style.display = 'none';
+                    tanggalFields.querySelectorAll('input').forEach(input => {
+                        input.value = '';
+                        input.removeAttribute('required');
+                    });
+                } else {
+                    tanggalFields.style.display = 'block';
+                    tanggalFields.querySelectorAll('input').forEach(input => {
+                        input.setAttribute('required', true);
+                    });
+                }
+            }
+
+            // Jalankan saat pertama kali load (agar konsisten dengan old value)
+            toggleTanggalFields();
+
+            // Jalankan setiap kali user mengganti moment
+            momentSelect.addEventListener('change', toggleTanggalFields);
+        });
+    </script>
 @endsection
